@@ -1,5 +1,9 @@
 # AI Workflow
 
+![Vue 3](https://img.shields.io/badge/Vue-3.x-4FC08D?style=flat-square&logo=vue.js)
+![Vite](https://img.shields.io/badge/Vite-6.x-646CFF?style=flat-square&logo=vite)
+![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)
+
 AI Workflow 是一个基于 Vue 3 和 Vue Flow 的可视化工作流编辑器。它允许用户通过直观的节点拖拽和连接，构建复杂的 AI 驱动的工作流。
 
 ## ✨ 主要特性
