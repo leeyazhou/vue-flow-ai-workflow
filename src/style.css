@@ -1,0 +1,103 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+  color: #2c3e50;
+  background-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  display: block;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.basic-flow.dark {
+  background: #2d3748;
+  color: #fffffb
+}
+
+.basic-flow.dark .vue-flow__node {
+  background: #4a5568;
+  color: #fffffb
+}
+
+.basic-flow.dark .vue-flow__node.selected {
+  background: #333;
+  box-shadow: 0 0 0 2px #2563eb
+}
+
+.basic-flow .vue-flow__controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center
+}
+
+.basic-flow.dark .vue-flow__controls {
+  border: 1px solid #FFFFFB
+}
+
+.basic-flow .vue-flow__controls .vue-flow__controls-button {
+  border: none;
+  border-right: 1px solid #eee
+}
+
+.basic-flow .vue-flow__controls .vue-flow__controls-button svg {
+  height: 100%;
+  width: 100%
+}
+
+.basic-flow.dark .vue-flow__controls .vue-flow__controls-button {
+  background: #333;
+  fill: #fffffb;
+  border: none
+}
+
+.basic-flow.dark .vue-flow__controls .vue-flow__controls-button:hover {
+  background: #4d4d4d
+}
+
+.basic-flow.dark .vue-flow__edge-textbg {
+  fill: #292524
+}
+
+.basic-flow.dark .base-node {
+  background: #2d3748;
+  color: #fffffb;
+  border-color: #4a5568;
+}
+
+.basic-flow.dark .base-node .node-header {
+  border-bottom-color: #4a5568;
+}
+
+.basic-flow.dark .base-node .node-description {
+  color: #a0aec0;
+}
+
+.basic-flow.dark .base-node .title-wrapper {
+  color: #fffffb;
+}
+
+.basic-flow.dark .vue-flow__controls {
+  border-color: #4a5568;
+}
+
+.basic-flow.dark .vue-flow__controls .vue-flow__controls-button {
+  border-right-color: #4a5568;
+  background: #2d3748;
+  fill: #fffffb;
+}
+
+.basic-flow.dark .vue-flow__controls .vue-flow__controls-button:hover {
+  background: #4a5568;
+}
