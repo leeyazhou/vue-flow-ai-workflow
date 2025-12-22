@@ -1,50 +1,50 @@
 <template>
     <div class="start-panel">
         <div class="panel-header">
-            <h3>Input Parameters</h3>
-            <el-button type="primary" link size="small" @click="addParameter">
+            <h3>输入参数</h3>
+            <el-button type="primary" size="small" @click="addParameter">
                 <el-icon>
                     <Plus />
                 </el-icon>
             </el-button>
         </div>
 
-        <div class="parameters-list">
-            <div v-for="(param, index) in parameters" :key="index" class="parameter-item">
-                <div class="param-header">
-                    <span class="param-index">#{{ index + 1 }}</span>
-                    <el-button type="danger" link size="small" @click="removeParameter(index)">
+        <el-table :data="parameters" size="small" border class="compact-table" :empty-text="'暂无参数'">
+            <el-table-column type="index" label="#" width="30" align="center" />
+
+            <el-table-column label="变量名" min-width="120">
+                <template #default="{ row }">
+                    <el-input v-model="row.name" placeholder="例: user_query" size="small" class="compact-input" />
+                </template>
+            </el-table-column>
+
+            <el-table-column label="类型" width="100">
+                <template #default="{ row }">
+                    <el-select v-model="row.type" size="small" class="compact-select">
+                        <el-option label="字符串" value="string" />
+                        <el-option label="数字" value="number" />
+                        <el-option label="布尔" value="boolean" />
+                        <el-option label="对象" value="object" />
+                    </el-select>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="必填" width="41" align="center">
+                <template #default="{ row }">
+                    <el-checkbox v-model="row.required" size="small" />
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作" width="41" align="center" fixed="right">
+                <template #default="{ $index }">
+                    <el-button type="danger" link size="small" @click="removeParameter($index)">
                         <el-icon>
                             <Delete />
                         </el-icon>
                     </el-button>
-                </div>
-
-                <div class="form-item">
-                    <label>Variable Name</label>
-                    <el-input v-model="param.name" placeholder="e.g. user_query" size="small" />
-                </div>
-
-                <div class="form-row">
-                    <div class="form-item half">
-                        <label>Type</label>
-                        <el-select v-model="param.type" size="small">
-                            <el-option label="String" value="string" />
-                            <el-option label="Number" value="number" />
-                            <el-option label="Boolean" value="boolean" />
-                            <el-option label="Object" value="object" />
-                        </el-select>
-                    </div>
-                    <div class="form-item half checkbox-container">
-                        <el-checkbox v-model="param.required" label="Required" size="small" />
-                    </div>
-                </div>
-            </div>
-
-            <div v-if="parameters.length === 0" class="empty-state">
-                No parameters defined.
-            </div>
-        </div>
+                </template>
+            </el-table-column>
+        </el-table>
     </div>
 </template>
 
@@ -56,7 +56,7 @@ const data = defineModel('data', {
     default: () => ({ parameters: [] })
 })
 
-// Ensure parameters array exists
+// 确保参数数组存在
 const parameters = computed(() => {
     if (!data.value.parameters) {
         data.value.parameters = []
@@ -88,7 +88,6 @@ const removeParameter = (index) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #ebeef5;
     padding-bottom: 8px;
 }
 
@@ -96,66 +95,27 @@ const removeParameter = (index) => {
     margin: 0;
     font-size: 14px;
     font-weight: 600;
-    color: #606266;
+    color: #303133;
 }
 
-.parameters-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.parameter-item {
-    background: #f5f7fa;
-    border-radius: 6px;
-    padding: 10px;
-    border: 1px solid #ebeef5;
-}
-
-.param-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-}
-
-.param-index {
+.compact-table {
     font-size: 12px;
-    font-weight: bold;
-    color: #909399;
 }
 
-.form-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-bottom: 8px;
+.compact-table :deep(.el-table__cell) {
+    padding: 4px 0;
 }
 
-.form-item label {
-    font-size: 12px;
-    color: #606266;
+.compact-input,
+.compact-select {
+    width: 100%;
 }
 
-.form-row {
-    display: flex;
-    gap: 10px;
+.compact-input :deep(.el-input__wrapper) {
+    padding: 1px 8px;
 }
 
-.half {
-    flex: 1;
-}
-
-.checkbox-container {
-    justify-content: flex-end;
-    padding-bottom: 4px;
-}
-
-.empty-state {
-    text-align: center;
-    color: #909399;
-    font-size: 12px;
-    padding: 20px 0;
+.compact-select :deep(.el-input__wrapper) {
+    padding: 1px 8px;
 }
 </style>
