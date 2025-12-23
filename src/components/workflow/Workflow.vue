@@ -1,7 +1,7 @@
 <template>
     <div class="workflow-container">
         <VueFlow :nodes="workflow.nodes" :edges="workflow.edges" :node-types="nodeTypes" :default-zoom="1.5"
-            :min-zoom="0.2" :max-zoom="4" :class="{ dark }" class="basic-flow">
+            :min-zoom="0.2" :max-zoom="4" :class="{ dark }" class="basic-flow" :connect-on-click="false">
             <Background pattern-color="#aaa" gap="16" />
             <HelperLines />
             <MiniMap />
