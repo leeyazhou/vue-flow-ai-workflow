@@ -81,6 +81,7 @@ const dark = ref(false)
 onConnect((params) => addEdges({
     ...params,
     animated: true,
+    style: { strokeWidth: 1.5 },
     markerEnd: MarkerType.ArrowClosed,
 }))
 
@@ -212,6 +213,7 @@ const handleAddNode = (type) => {
         sourceHandle: sourceHandleId.value, // Pass specific handle ID
         target: newNodeId,
         animated: true,
+        style: { strokeWidth: 2.5 },
         markerEnd: MarkerType.ArrowClosed,
     }])
 

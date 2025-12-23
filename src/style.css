@@ -101,3 +101,8 @@ body {
 .basic-flow.dark .vue-flow__controls .vue-flow__controls-button:hover {
   background: #4a5568;
 }
+
+/* Thicker connection lines */
+.vue-flow__edge-path {
+  stroke-width: 1.5px !important;
+}
