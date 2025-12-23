@@ -8,19 +8,19 @@
                 </el-icon>
                 <span>LLM Node</span>
             </div>
-            <div class="menu-item" @click="$emit('select', 'knowledge')">
+            <div class="menu-item" @click="$emit('select', 'Knowledge')">
                 <el-icon>
                     <Collection />
                 </el-icon>
                 <span>Knowledge Base</span>
             </div>
-            <div class="menu-item" @click="$emit('select', 'condition')">
+            <div class="menu-item" @click="$emit('select', 'Condition')">
                 <el-icon>
                     <Operation />
                 </el-icon>
                 <span>Condition</span>
             </div>
-            <div class="menu-item" @click="$emit('select', 'end')">
+            <div class="menu-item" @click="$emit('select', 'End')">
                 <el-icon>
                     <SwitchButton />
                 </el-icon>
