@@ -155,7 +155,7 @@ export const collectPredecessorVariables = (currentNodeId, nodes, edges) => {
         console.log('predecessorIds', predId)
         const node = nodes.find((n) => n.id === predId)
         if (!node) return
-        if (node.type === 'condition') return
+        if (node.type === 'Condition') return
 
         const variables = getNodeOutputVariables(node.type, node.data)
         if (variables.length > 0) {
