@@ -2,7 +2,7 @@
     <div v-if="visible" class="node-menu" :style="{ top: position.y + 'px', left: position.x + 'px' }" ref="menuRef">
         <div class="menu-header">选择节点</div>
         <div class="menu-list">
-            <div class="menu-item" @click="$emit('select', 'llm')">
+            <div class="menu-item" @click="$emit('select', 'LLM')">
                 <el-icon>
                     <ChatDotRound />
                 </el-icon>
