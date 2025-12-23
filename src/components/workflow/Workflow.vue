@@ -296,4 +296,9 @@ const handleLayout = () => {
     z-index: 5;
     /* Above canvas but below menus if needed, or higher? Panel is z-index 10. */
 }
+
+/* Thicker connection lines */
+:deep(.vue-flow__edge-path) {
+    stroke-width: 1.5px !important;
+}
 </style>
