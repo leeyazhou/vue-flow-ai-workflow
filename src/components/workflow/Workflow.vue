@@ -90,7 +90,7 @@ const workflow = defineModel('workflow', {
     default: {
         nodes: [{
             id: 'start',
-            type: 'start',
+            type: 'Start',
             position: { x: 100, y: 100 },
             label: 'Start',
             data: { label: 'Start', description: 'Entry point' },

@@ -23,7 +23,7 @@ export const nodeOutputVariables = {
      * Start 节点输出变量
      * 包含内置系统变量和用户自定义参数
      */
-    start: (nodeData) => {
+    Start: (nodeData) => {
         const variables = []
 
         // 内置系统变量
@@ -54,7 +54,7 @@ export const nodeOutputVariables = {
      * LLM 节点输出变量
      * 包含默认输出变量和用户自定义的输出参数
      */
-    llm: (nodeData) => {
+    LLM: (nodeData) => {
         const variables = []
 
         // 默认输出变量
@@ -84,7 +84,7 @@ export const nodeOutputVariables = {
     /**
      * Knowledge 节点输出变量
      */
-    knowledge: (nodeData) => [
+    Knowledge: (nodeData) => [
         { name: 'documents', type: 'object', description: '检索到的文档列表' },
         { name: 'similarity', type: 'number', description: '最高相似度分数' },
         { name: 'count', type: 'number', description: '检索到的文档数量' },
@@ -94,7 +94,7 @@ export const nodeOutputVariables = {
     /**
      * Condition 节点输出变量
      */
-    condition: (nodeData) => [
+    Condition: (nodeData) => [
         { name: 'result', type: 'boolean', description: '条件判断结果 (true/false)' },
         { name: 'matched_value', type: 'string', description: '匹配的值' }
     ],
@@ -102,7 +102,7 @@ export const nodeOutputVariables = {
     /**
      * End 节点没有输出变量
      */
-    end: (nodeData) => []
+    End: (nodeData) => []
 }
 
 /**
