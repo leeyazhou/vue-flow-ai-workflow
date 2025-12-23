@@ -92,7 +92,7 @@
 <script setup>
 import { computed } from 'vue'
 import { Plus, Delete } from '@element-plus/icons-vue'
-import { collectPredecessorVariables } from '../../../utils/workflowSchema'
+import { collectPredecessorVariables } from '@/utils/workflowSchema'
 
 const props = defineProps({
     nodeId: {

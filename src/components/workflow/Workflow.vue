@@ -235,7 +235,7 @@ const handlePublish = () => {
     console.log('Exported data:', data)
 }
 
-import { useAutoLayout } from '../../utils/workflowAutoLayout'
+import { useAutoLayout } from '@/utils/workflowAutoLayout'
 const { layout } = useAutoLayout()
 
 const handleLayout = () => {
