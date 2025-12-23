@@ -44,7 +44,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { collectPredecessorVariables } from '../../../utils/variableSchema'
+import { collectPredecessorVariables } from '../../../utils/workflowSchema'
 
 const props = defineProps({
     nodeId: {
