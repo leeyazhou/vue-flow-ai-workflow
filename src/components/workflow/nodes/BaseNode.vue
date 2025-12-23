@@ -1,6 +1,6 @@
 <template>
     <div class="base-node" :class="{ selected }">
-        <slot name="target-handle">
+        <slot name="target-handle" v-if="showTargetHandle">
             <Handle type="target" position="left" class="handle" />
         </slot>
 
@@ -26,15 +26,14 @@
             </div>
         </div>
 
-        <!-- Add Button -->
-        <div v-if="showAddButton" class="add-button" @click.stop="$emit('add-node', { id, event: $event })">
-            <el-icon>
-                <Plus />
-            </el-icon>
-        </div>
-
-        <slot name="source-handle">
-            <Handle type="source" position="right" class="handle" />
+        <!-- Source Handle (Right) + Add Button Combo -->
+        <slot name="source-handle" v-if="showSourceHandle">
+            <div class="source-handle-wrapper" @click.stop="$emit('add-node', { id, event: $event })">
+                <Handle type="source" position="right" class="handle" />
+                <el-icon class="plus-icon">
+                    <Plus />
+                </el-icon>
+            </div>
         </slot>
     </div>
 </template>
@@ -52,7 +51,11 @@ defineProps({
         type: Boolean,
         default: false,
     },
-    showAddButton: {
+    showSourceHandle: {
+        type: Boolean,
+        default: true,
+    },
+    showTargetHandle: {
         type: Boolean,
         default: true,
     }
@@ -120,56 +123,76 @@ defineEmits(['add-node'])
     color: #909399;
     line-height: 2.0;
     min-height: 16px;
-    /* Ensure some height even if empty? Or hide if empty */
 }
 
-.add-button {
+/* Combined Handle and Add Button Styles */
+.source-handle-wrapper {
     position: absolute;
     right: -7px;
-    /* Half of 14px width */
     top: 50%;
     transform: translateY(-50%);
     width: 14px;
     height: 14px;
-    font-size: 10px;
-    background: #409eff;
-    color: white;
-    border-radius: 50%;
+    z-index: 10;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s;
-    z-index: 10;
     opacity: 0;
-    pointer-events: none;
+    transition: all 0.2s;
 }
 
-.base-node:hover .add-button {
+.base-node:hover .source-handle-wrapper {
     opacity: 1;
-    pointer-events: auto;
     right: -7px;
 }
 
-/* Global handle styles to ensure consistency if specific nodes override */
-:deep(.handle) {
-    width: 1px !important;
-    height: 1px !important;
-    background: transparent !important;
-    border: none;
-    opacity: 0;
+.plus-icon {
+    font-size: 10px;
+    color: white;
     pointer-events: none;
-    /* User can't manually drag edge if no handle? Or maybe they want to dropping edges? 
+    /* Let clicks pass to wrapper/handle? No, wrapper handles click. */
+    z-index: 6;
+    position: absolute;
+}
+
+/* Global handle styles for visuals */
+:deep(.handle) {
+    width: 14px !important;
+    height: 14px !important;
+    background: #409eff !important;
+    border: none;
+    border-radius: 50%;
+    pointer-events: auto;
+    z-index: 5;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* Show handles on hover */
+.base-node:hover :deep(.handle) {
+    opacity: 1;
+}
+
+/* Specific styling for Source Handle (inside wrapper) */
+.source-handle-wrapper :deep(.handle) {
+    right: 0;
+    top: 0;
+    transform: none !important;
+}
+
+/* Specific styling for Target Handle (Left side) */
+:deep(.vue-flow__handle-left.handle) {
+    left: -7px;
+    /* Half of width to center on edge */
+    top: 50%;
+    transform: translateY(-50%) !important;
+}
+
+/* User can't manually drag edge if no handle? Or maybe they want to dropping edges? 
                              If I set pointer-events: none, manual connection stops working.
                              The user said "keep + button", implying they use + mostly.
-                             But I previously fixed manual connection. 
-                             If I hide dots, manual connection is hard. 
-                             Let's keep them interactable but invisible? 
-                             Or maybe just invisible. 
-                             "No left, right dots". 
-                             I'll make them transparent. 
-                          */
 }
 
 /* Removed hover effect */

@@ -80,6 +80,7 @@ const dark = ref(false)
 
 onConnect((params) => addEdges({
     ...params,
+    animated: true,
     markerEnd: MarkerType.ArrowClosed,
 }))
 

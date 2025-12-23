@@ -1,5 +1,5 @@
 <template>
-    <BaseNode :id="id" :selected="selected" @add-node="$emit('add-node', $event)">
+    <BaseNode :id="id" :selected="selected" @add-node="$emit('add-node', $event)" :show-target-handle="false">
         <template #icon>
             <el-icon class="icon">
                 <VideoPlay />

@@ -1,5 +1,5 @@
 <template>
-    <BaseNode :id="id" :selected="selected" @add-node="$emit('add-node', $event)" :show-add-button="false">
+    <BaseNode :id="id" :selected="selected" @add-node="$emit('add-node', $event)" :show-source-handle="false">
         <template #icon>
             <el-icon class="icon">
                 <SwitchButton />
