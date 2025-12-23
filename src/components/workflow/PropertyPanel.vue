@@ -17,9 +17,10 @@
                 </div>
                 <div class="form-item">
                     <label>Description</label>
-                    <el-input v-model="localDescription" type="textarea" :rows="3" @input="updateNode" />
+                    <el-input v-model="localDescription" type="textarea" autosize @input="updateNode" />
                 </div>
-                <component :is="specificPanel" v-if="specificPanel" :data="node.data" />
+                <component :is="specificPanel" v-if="specificPanel" :data="node.data" :node-id="node.id"
+                    :workflow-nodes="workflowNodes" :workflow-edges="workflowEdges" />
             </div>
         </div>
     </div>
@@ -38,6 +39,14 @@ const props = defineProps({
     node: {
         type: Object,
         default: null,
+    },
+    workflowNodes: {
+        type: Array,
+        default: () => []
+    },
+    workflowEdges: {
+        type: Array,
+        default: () => []
     }
 })
 

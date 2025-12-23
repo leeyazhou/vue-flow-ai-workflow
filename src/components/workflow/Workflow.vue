@@ -46,8 +46,8 @@
         <NodeMenu v-if="menuVisible" :visible="menuVisible" :position="{ x: menuX, y: menuY }" @select="handleAddNode"
             @close="menuVisible = false" />
 
-        <PropertyPanel v-if="selectedNode" :node="selectedNode" @close="selectedNode = null"
-            @update="handleNodeUpdate" />
+        <PropertyPanel v-if="selectedNode" :node="selectedNode" :workflow-nodes="workflow.nodes"
+            :workflow-edges="workflow.edges" @close="selectedNode = null" @update="handleNodeUpdate" />
 
         <!-- Publish Button -->
         <div class="publish-controls">

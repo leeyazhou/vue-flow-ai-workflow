@@ -36,6 +36,14 @@ const edge = defineModel('edge', {
         }
     })
 })
+function initEdge() {
+    if (edge && edge.value && edge.value.style === undefined) {
+        edge.value.style = {
+            stroke: 'green'
+        }
+    }
+}
+initEdge()
 console.log('edge: ', edge.value)
 </script>
 
