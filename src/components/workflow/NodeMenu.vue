@@ -1,6 +1,6 @@
 <template>
     <div v-if="visible" class="node-menu" :style="{ top: position.y + 'px', left: position.x + 'px' }" ref="menuRef">
-        <div class="menu-header">Select Node</div>
+        <div class="menu-header">选择节点</div>
         <div class="menu-list">
             <div class="menu-item" @click="$emit('select', 'llm')">
                 <el-icon>

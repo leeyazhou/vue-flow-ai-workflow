@@ -18,31 +18,22 @@
         <!-- Custom Output Handles -->
         <template #source-handle>
             <div class="condition-handles">
-                <div class="handle-wrapper">
-                    <!--
-                    <span class="handle-label yes">Yes</span>
-                -->
+                <!-- Yes Handle Combo -->
+                <div class="handle-wrapper yes-wrapper"
+                    @click.stop="$emit('add-node', { id, handleId: 'true', event: $event })">
                     <Handle type="source" position="right" id="true" class="handle condition-handle yes-handle" />
-                    <!-- Yes Link Button -->
-                    <div class="link-button yes-btn"
-                        @click.stop="$emit('add-node', { id, handleId: 'true', event: $event })">
-                        <el-icon>
-                            <Plus />
-                        </el-icon>
-                    </div>
+                    <el-icon class="plus-icon">
+                        <Plus />
+                    </el-icon>
                 </div>
-                <div class="handle-wrapper">
-                    <!--
-                    <span class="handle-label no">No</span>
-                    -->
+
+                <!-- No Handle Combo -->
+                <div class="handle-wrapper no-wrapper"
+                    @click.stop="$emit('add-node', { id, handleId: 'false', event: $event })">
                     <Handle type="source" position="right" id="false" class="handle condition-handle no-handle" />
-                    <!-- No Link Button -->
-                    <div class="link-button no-btn"
-                        @click.stop="$emit('add-node', { id, handleId: 'false', event: $event })">
-                        <el-icon>
-                            <Plus />
-                        </el-icon>
-                    </div>
+                    <el-icon class="plus-icon">
+                        <Plus />
+                    </el-icon>
                 </div>
             </div>
         </template>
@@ -51,7 +42,7 @@
 
 <script setup>
 import { Handle } from '@vue-flow/core'
-import { Operation } from '@element-plus/icons-vue'
+import { Operation, Plus } from '@element-plus/icons-vue'
 import BaseNode from './BaseNode.vue'
 
 defineProps({
@@ -75,48 +66,67 @@ defineEmits(['add-node'])
 <style scoped>
 .condition-handles {
     position: absolute;
-    right: 0px;
-    /* Moved closer to be on the edge. Diamond tip is at right: 0 approx. */
-    top: 60%;
+    right: -7px;
+    /* Align with BaseNode standard */
+    top: 50%;
+    /* Center vertically */
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
+    z-index: 10;
 }
 
 .handle-wrapper {
     position: relative;
+    width: 14px;
+    height: 14px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
 }
 
-.handle-label {
-    position: absolute;
-    right: 16px;
+/* Ensure visibility when hovering the node body (BaseNode) or the handle wrapper itself */
+:global(.base-node:hover) .condition-handles .handle-wrapper,
+.condition-handles:hover .handle-wrapper,
+.handle-wrapper:hover {
+    opacity: 1;
+}
+
+.base-node:hover :deep(.handle-wrapper) {
+    opacity: 1;
+}
+
+.plus-icon {
     font-size: 10px;
-    font-weight: bold;
+    color: white;
     pointer-events: none;
-}
-
-.handle-label.yes {
-    color: #67c23a;
-}
-
-.handle-label.no {
-    color: #f56c6c;
+    z-index: 20;
+    /* Boost z-index to be safe */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Strictly center */
 }
 
 /* Override base node handle styles for these specific handles */
 :deep(.condition-handle) {
-    width: 8px !important;
-    height: 8px !important;
+    width: 14px !important;
+    height: 14px !important;
     border-radius: 50%;
-    border: 1px solid white;
+    border: none;
     opacity: 1 !important;
-    /* Always visible for condition logic */
-    position: static !important;
-    /* Relative to wrapper */
+    /* Managed by wrapper opacity */
+    position: absolute !important;
+    right: 0;
+    top: 0;
+    transform: none !important;
     pointer-events: auto !important;
+    z-index: 5;
 }
 
 :deep(.yes-handle) {
@@ -125,40 +135,5 @@ defineEmits(['add-node'])
 
 :deep(.no-handle) {
     background: #f56c6c !important;
-}
-
-/* Link Buttons */
-.link-button {
-    width: 14px;
-    height: 14px;
-    font-size: 10px;
-    background: #409eff;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    transition: opacity 0.2s;
-    position: absolute;
-    right: -7px;
-    top: 5%;
-    transform: translateY(-50%);
-    /* Keep buttons outside */
-    pointer-events: auto;
-}
-
-.handle-wrapper:hover .link-button {
-    opacity: 1;
-}
-
-.yes-btn {
-    background: #67c23a;
-}
-
-.no-btn {
-    background: #f56c6c;
 }
 </style>
