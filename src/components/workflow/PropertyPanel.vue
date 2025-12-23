@@ -58,11 +58,11 @@ const localDescription = ref('')
 
 // Map node types to panel components
 const panelMap = {
-    start: StartPanel,
-    llm: LlmPanel,
-    knowledge: KnowledgePanel,
-    condition: ConditionPanel,
-    edge: EdgePanel,
+    Start: StartPanel,
+    LLM: LlmPanel,
+    Knowledge: KnowledgePanel,
+    Condition: ConditionPanel,
+    Edge: EdgePanel,
 }
 
 const isEdge = computed(() => props.node && (props.node.source || props.node.target))

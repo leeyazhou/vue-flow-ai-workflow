@@ -25,19 +25,19 @@
             </Controls>
 
             <!-- Custom Events for Nodes -->
-            <template #node-start="props">
+            <template #node-Start="props">
                 <StartNode v-bind="props" @add-node="onAddNode" />
             </template>
-            <template #node-llm="props">
+            <template #node-LLM="props">
                 <LlmNode v-bind="props" @add-node="onAddNode" />
             </template>
-            <template #node-knowledge="props">
+            <template #node-Knowledge="props">
                 <KnowledgeNode v-bind="props" @add-node="onAddNode" />
             </template>
-            <template #node-condition="props">
+            <template #node-Condition="props">
                 <ConditionNode v-bind="props" @add-node="onAddNode" />
             </template>
-            <template #node-end="props">
+            <template #node-End="props">
                 <EndNode v-bind="props" @add-node="onAddNode" />
             </template>
         </VueFlow>

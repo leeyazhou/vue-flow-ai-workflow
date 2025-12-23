@@ -2,21 +2,21 @@ export const workflow = {
     dark: false,
     nodes: [{
         id: 'start',
-        type: 'start',
+        type: 'Start',
         position: { x: 100, y: 100 },
         label: 'Start',
         data: { label: 'Start', description: 'Entry point' },
     },
     {
         id: 'llm-1',
-        type: 'llm',
+        type: 'LLM',
         position: { x: 800, y: 100 }, // Shifted right and up slightly for branch visualization
         label: 'LLM Node',
         data: { label: 'LLM Analysis', description: 'Analyzes the input text.' },
     },
     {
         id: 'end',
-        type: 'end',
+        type: 'End',
         position: { x: 1100, y: 300 }, // Shifted further right
 
         label: 'End',
@@ -24,7 +24,7 @@ export const workflow = {
     },
     {
         id: 'condition-1',
-        type: 'condition',
+        type: 'Condition',
         position: { x: 400, y: 100 },
         label: 'Check Input',
         data: { label: 'Check Input', description: 'Validate input text', variable: 'input', operator: 'contains', value: 'hello' },
