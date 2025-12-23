@@ -101,11 +101,11 @@ const workflow = defineModel('workflow', {
 })
 
 const nodeTypes = {
-    start: StartNode,
-    llm: LlmNode,
-    knowledge: KnowledgeNode,
-    condition: ConditionNode,
-    end: EndNode,
+    Start: StartNode,
+    LLM: LlmNode,
+    Knowledge: KnowledgeNode,
+    Condition: ConditionNode,
+    End: EndNode,
 }
 
 function toggleDarkMode() {
