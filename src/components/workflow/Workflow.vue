@@ -84,7 +84,9 @@ onConnect((params) => addEdges({
     style: { strokeWidth: 1.5 },
     markerEnd: MarkerType.ArrowClosed,
 }))
-
+const props = defineProps({
+    onPublish: Function
+})
 const workflow = defineModel('workflow', {
     type: Object,
     default: {
@@ -225,16 +227,7 @@ const handleAddNode = (type) => {
 
 const handlePublish = () => {
     const data = toObject()
-    const jsonString = JSON.stringify(data, null, 2)
-    const blob = new Blob([jsonString], { type: 'application/json' })
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(blob)
-    link.download = 'workflow.json'
-    link.click()
-    URL.revokeObjectURL(link.href)
-
-    ElMessage.success('Workflow data exported!')
-    console.log('Exported data:', data)
+    props.onPublish(data);
 }
 
 import { useAutoLayout } from '@/utils/workflowAutoLayout'

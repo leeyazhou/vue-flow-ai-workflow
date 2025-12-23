@@ -1,5 +1,5 @@
 <template>
-  <Workflow :workflow="workflowData" />
+  <Workflow :workflow="workflowData" :on-publish="handlePublish" />
 </template>
 
 <script setup>
@@ -18,6 +18,20 @@ const workflowData = ref(workflow)
 //   }],
 //   edges: []
 // }
+
+const handlePublish = data => {
+  console.log('Published data:', data)
+  const jsonString = JSON.stringify(data, null, 2)
+  const blob = new Blob([jsonString], { type: 'application/json' })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = 'workflow.json'
+  link.click()
+  URL.revokeObjectURL(link.href)
+
+  ElMessage.success('Workflow data exported!')
+  console.log('Exported data:', data)
+}
 </script>
 
 <style scoped></style>
