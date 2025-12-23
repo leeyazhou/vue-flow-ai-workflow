@@ -52,13 +52,34 @@ export const nodeOutputVariables = {
 
     /**
      * LLM 节点输出变量
+     * 包含默认输出变量和用户自定义的输出参数
      */
-    llm: (nodeData) => [
-        { name: 'response', type: 'string', description: 'LLM 响应内容' },
-        { name: 'tokens', type: 'number', description: '消耗的 token 数量' },
-        { name: 'model', type: 'string', description: '使用的模型名称' },
-        { name: 'finish_reason', type: 'string', description: '完成原因' }
-    ],
+    llm: (nodeData) => {
+        const variables = []
+
+        // 默认输出变量
+        variables.push(
+            { name: 'response', type: 'string', description: 'LLM 响应内容' },
+            { name: 'tokens', type: 'number', description: '消耗的 token 数量' },
+            { name: 'model', type: 'string', description: '使用的模型名称' },
+            { name: 'finish_reason', type: 'string', description: '完成原因' }
+        )
+
+        // 用户自定义输出参数
+        if (nodeData.outputParameters && Array.isArray(nodeData.outputParameters)) {
+            nodeData.outputParameters.forEach((param) => {
+                if (param.name) {
+                    variables.push({
+                        name: param.name,
+                        type: param.type || 'string',
+                        description: `自定义输出: ${param.name}`
+                    })
+                }
+            })
+        }
+
+        return variables
+    },
 
     /**
      * Knowledge 节点输出变量
@@ -85,15 +106,36 @@ export const nodeOutputVariables = {
 }
 
 /**
- * 获取前置节点列表
+ * 递归获取所有前置节点列表(包括前置节点的前置节点)
  * @param {string} nodeId - 当前节点ID
  * @param {Array} edges - 所有边
- * @returns {Array} 前置节点ID列表
+ * @param {Set} visited - 已访问节点集合(避免循环)
+ * @returns {Array} 所有前置节点ID列表
  */
-export const getPredecessorNodes = (nodeId, edges) => {
-    return edges
+export const getPredecessorNodes = (nodeId, edges, visited = new Set()) => {
+    // 防止循环依赖
+    if (visited.has(nodeId)) {
+        return []
+    }
+    visited.add(nodeId)
+
+    // 获取直接前置节点
+    const directPredecessors = edges
         .filter((edge) => edge.target === nodeId)
         .map((edge) => edge.source)
+
+    // 递归获取所有祖先节点
+    const allPredecessors = [...directPredecessors]
+    directPredecessors.forEach((predId) => {
+        const ancestorPredecessors = getPredecessorNodes(predId, edges, visited)
+        ancestorPredecessors.forEach((ancestorId) => {
+            if (!allPredecessors.includes(ancestorId)) {
+                allPredecessors.push(ancestorId)
+            }
+        })
+    })
+
+    return allPredecessors
 }
 
 /**
@@ -104,12 +146,16 @@ export const getPredecessorNodes = (nodeId, edges) => {
  * @returns {Array} 分组的变量列表 [{nodeId, nodeLabel, variables: [...]}]
  */
 export const collectPredecessorVariables = (currentNodeId, nodes, edges) => {
+    console.log('currentNodeId', currentNodeId)
     const predecessorIds = getPredecessorNodes(currentNodeId, edges)
+    console.log('predecessorIds: ', predecessorIds)
     const groupedVariables = []
 
     predecessorIds.forEach((predId) => {
+        console.log('predecessorIds', predId)
         const node = nodes.find((n) => n.id === predId)
         if (!node) return
+        if (node.type === 'condition') return
 
         const variables = getNodeOutputVariables(node.type, node.data)
         if (variables.length > 0) {

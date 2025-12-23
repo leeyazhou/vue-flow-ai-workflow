@@ -46,8 +46,8 @@
         <NodeMenu v-if="menuVisible" :visible="menuVisible" :position="{ x: menuX, y: menuY }" @select="handleAddNode"
             @close="menuVisible = false" />
 
-        <PropertyPanel v-if="selectedNode" :node="selectedNode" :workflow-nodes="workflow.nodes"
-            :workflow-edges="workflow.edges" @close="selectedNode = null" @update="handleNodeUpdate" />
+        <PropertyPanel v-if="selectedNode" :node="selectedNode" :workflow-nodes="getNodes" :workflow-edges="getEdges"
+            @close="selectedNode = null" @update="handleNodeUpdate" />
 
         <!-- Publish Button -->
         <div class="publish-controls">
@@ -75,7 +75,7 @@ import ToolBarIcon from './ToolBarIcon.vue'
 import HelperLines from './HelperLines.vue'
 import { ElMessage } from 'element-plus'
 
-const { addNodes, addEdges, onConnect, project, getNodes, onNodeClick, onEdgeClick, onPaneClick, toObject, setViewport, fitView, findEdge, findNode } = useVueFlow()
+const { addNodes, addEdges, onConnect, project, getNodes, getEdges, onNodeClick, onEdgeClick, onPaneClick, toObject, setViewport, fitView, findEdge, findNode } = useVueFlow()
 const dark = ref(false)
 
 onConnect((params) => addEdges({
