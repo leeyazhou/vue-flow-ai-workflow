@@ -1,7 +1,8 @@
 <template>
     <div class="workflow-container">
         <VueFlow :nodes="workflow.nodes" :edges="workflow.edges" :node-types="nodeTypes" :default-zoom="1.5"
-            :min-zoom="0.2" :max-zoom="4" :class="{ dark }" class="basic-flow" :connect-on-click="false">
+            :min-zoom="0.2" :max-zoom="4" :class="{ dark }" class="basic-flow" :connect-on-click="false"
+            :fit-view-on-init="true">
             <Background pattern-color="#aaa" gap="16" />
             <HelperLines />
             <MiniMap />
@@ -47,7 +48,7 @@
             @close="menuVisible = false" />
 
         <PropertyPanel v-if="selectedNode" :node="selectedNode" :workflow-nodes="getNodes" :workflow-edges="getEdges"
-            @close="selectedNode = null" @update="handleNodeUpdate" />
+            :workflow-config="workflowConfig" @close="selectedNode = null" @update="handleNodeUpdate" />
 
         <!-- Publish Button -->
         <div class="publish-controls">
@@ -98,6 +99,13 @@ const workflow = defineModel('workflow', {
             data: { label: 'Start', description: 'Entry point' },
         }],
         edges: []
+    },
+    required: false
+})
+
+const workflowConfig = defineModel('workflowConfig', {
+    type: Object,
+    default: {
     },
     required: false
 })

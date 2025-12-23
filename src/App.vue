@@ -1,10 +1,10 @@
 <template>
-  <Workflow :workflow="workflowData" :on-publish="handlePublish" />
+  <Workflow :workflow="workflowData" :workflow-config="workflowConfig" :on-publish="handlePublish" />
 </template>
 
 <script setup>
 import Workflow from './components/workflow/Workflow.vue'
-import { workflow } from './mocks/workflowMockAPI'
+import { workflow, workflowConfig } from './mocks/workflowMockAPI'
 import { ref } from 'vue'
 
 const workflowData = ref(workflow)

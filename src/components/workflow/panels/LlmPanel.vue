@@ -26,10 +26,7 @@
         <div class="form-item">
             <label>模型</label>
             <el-select v-model="data.model" placeholder="选择模型" size="small">
-                <el-option label="GPT-4o" value="gpt-4o" />
-                <el-option label="GPT-4 Turbo" value="gpt-4-turbo" />
-                <el-option label="GPT-3.5 Turbo" value="gpt-3.5-turbo" />
-                <el-option label="Claude 3.5 Sonnet" value="claude-3-5-sonnet" />
+                <el-option v-for="model in workflowConfig.modelList" :label="model.modelName" :value="model.id" />
             </el-select>
         </div>
 
@@ -106,6 +103,12 @@ const props = defineProps({
     workflowEdges: {
         type: Array,
         default: () => []
+    },
+    workflowConfig: {
+        type: Object,
+        default: () => {
+            modelList: []
+        }
     }
 })
 

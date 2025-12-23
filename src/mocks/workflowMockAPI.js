@@ -139,3 +139,24 @@ export const workflow2 = [{
     markerEnd: 'arrowclosed',
 }
 ]
+
+export const workflowConfig = {
+    modelList: [
+        {
+            id: 1,
+            modelName: 'GPT-4o'
+        },
+        {
+            id: 2,
+            modelName: 'GPT-4 Turbo'
+        },
+        {
+            id: 2,
+            modelName: 'GPT-3.5 Turbo'
+        },
+        {
+            id: 2,
+            modelName: 'Claude 3.5 Sonnet'
+        }
+    ]
+}

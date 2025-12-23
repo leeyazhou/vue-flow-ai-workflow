@@ -21,7 +21,7 @@
                         size="small" @input="updateNode" />
                 </div>
                 <component :is="specificPanel" v-if="specificPanel" :data="node.data" :node-id="node.id"
-                    :workflow-nodes="workflowNodes" :workflow-edges="workflowEdges" />
+                    :workflow-config="workflowConfig" :workflow-nodes="workflowNodes" :workflow-edges="workflowEdges" />
             </div>
         </div>
     </div>
@@ -48,6 +48,10 @@ const props = defineProps({
     workflowEdges: {
         type: Array,
         default: () => []
+    },
+    workflowConfig: {
+        type: Object,
+        default: () => { }
     }
 })
 
