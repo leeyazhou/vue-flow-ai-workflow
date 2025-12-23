@@ -1,6 +1,5 @@
 <template>
     <div class="start-panel">
-        <!-- 内置变量 -->
         <div class="section">
             <div class="section-header">
                 <h3>内置变量</h3>
@@ -157,25 +156,25 @@ const removeParameter = (index) => {
 .start-panel {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
 }
 
 .section {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 8px;
+    padding-bottom: 6px;
 }
 
 .section-header h3 {
     margin: 0;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
     color: #303133;
 }

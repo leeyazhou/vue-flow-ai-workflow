@@ -87,17 +87,17 @@ const availableVariables = computed(() => {
 .condition-panel {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
 }
 
 .form-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
 .form-item label {
-    font-size: 14px;
+    font-size: 12px;
     color: #606266;
     font-weight: 500;
 }

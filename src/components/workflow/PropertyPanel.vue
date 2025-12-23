@@ -1,7 +1,7 @@
 <template>
     <div class="property-panel" v-if="node">
         <div class="panel-header">
-            <span>Properties</span>
+            <span>属性</span>
             <el-icon class="close-btn" @click="$emit('close')">
                 <Close />
             </el-icon>
@@ -12,12 +12,13 @@
             <!-- Node Editing -->
             <div v-else>
                 <div class="form-item">
-                    <label>Node Name</label>
-                    <el-input v-model="localLabel" @input="updateNode" />
+                    <label>节点名称</label>
+                    <el-input v-model="localLabel" size="small" @input="updateNode" />
                 </div>
                 <div class="form-item">
-                    <label>Description</label>
-                    <el-input v-model="localDescription" type="textarea" autosize @input="updateNode" />
+                    <label>描述</label>
+                    <el-input v-model="localDescription" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }"
+                        size="small" @input="updateNode" />
                 </div>
                 <component :is="specificPanel" v-if="specificPanel" :data="node.data" :node-id="node.id"
                     :workflow-nodes="workflowNodes" :workflow-edges="workflowEdges" />
@@ -93,8 +94,8 @@ const updateNode = () => {
 
 <style scoped>
 .property-panel {
-    margin: 60px 16px;
-    width: 400px;
+    margin: 60px 12px;
+    width: 360px;
     height: 90%;
     position: absolute;
     right: 0;
@@ -108,12 +109,13 @@ const updateNode = () => {
 }
 
 .panel-header {
-    padding: 16px;
+    padding: 10px 12px;
     border-bottom: 1px solid #ebeef5;
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
+    font-size: 13px;
     color: #303133;
 }
 
@@ -127,20 +129,21 @@ const updateNode = () => {
 }
 
 .panel-content {
-    padding: 16px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
+    overflow-y: auto;
 }
 
 .form-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
 .form-item label {
-    font-size: 14px;
+    font-size: 12px;
     color: #606266;
     font-weight: 500;
 }

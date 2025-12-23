@@ -1,17 +1,17 @@
 <template>
     <div class="panel-section">
         <div class="form-item">
-            <label>Knowledge Base</label>
-            <el-select v-model="data.knowledgeBaseId" placeholder="Select Knowledge Base">
-                <el-option label="Company Docs" value="kb-001" />
-                <el-option label="Product Manuals" value="kb-002" />
-                <el-option label="Legal Archive" value="kb-003" />
+            <label>知识库</label>
+            <el-select v-model="data.knowledgeBaseId" placeholder="选择知识库" size="small">
+                <el-option label="公司文档" value="kb-001" />
+                <el-option label="产品手册" value="kb-002" />
+                <el-option label="法律档案" value="kb-003" />
             </el-select>
         </div>
 
         <div class="form-item">
-            <label>Top K</label>
-            <el-input-number v-model="data.topK" :min="1" :max="10" />
+            <label>返回数量 (Top K)</label>
+            <el-input-number v-model="data.topK" :min="1" :max="10" size="small" />
         </div>
     </div>
 </template>
@@ -29,20 +29,20 @@ const data = defineModel('data', {
 .panel-section {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
     border-top: 1px solid #ebeef5;
-    padding-top: 16px;
-    margin-top: 8px;
+    padding-top: 10px;
+    margin-top: 6px;
 }
 
 .form-item {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
 .form-item label {
-    font-size: 14px;
+    font-size: 12px;
     color: #606266;
     font-weight: 500;
 }
