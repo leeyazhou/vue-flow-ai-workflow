@@ -217,8 +217,8 @@ const handleAddNode = (type) => {
         type: type,
         position: { x: sourceNode.position.x + 300, y: sourceNode.position.y },
         data: {
-            label: '',
-            description: ''
+            label: `${type} Node`,
+            description: 'New node description'
         }
     }
 

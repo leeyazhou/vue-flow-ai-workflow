@@ -71,11 +71,11 @@ const panelMap = {
     Edge: EdgePanel,
 }
 
-const isEdge = computed(() => props.node && (props.node.source || props.node.target))
+const isEdge = computed(() => node.value && (node.value.source || node.value.target))
 
 const specificPanel = computed(() => {
-    if (!props.node || isEdge.value) return null
-    return panelMap[props.node.type] || null
+    if (!node.value || isEdge.value) return null
+    return panelMap[node.value.type] || null
 })
 
 </script>
