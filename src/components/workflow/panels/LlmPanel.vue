@@ -7,7 +7,7 @@
                 collapse-tags collapse-tags-tooltip>
                 <el-option-group v-for="group in availableParams" :key="group.nodeId" :label="group.nodeLabel">
                     <el-option v-for="variable in group.variables" :key="variable.name" :label="variable.name"
-                        :value="variable.name">
+                        :value="group.nodeId + '.' + variable.name">
                         <div class="variable-option">
                             <span class="var-name">{{ variable.name }}</span>
                             <el-tag size="small" type="info" class="var-type">{{ variable.type }}</el-tag>
@@ -26,7 +26,8 @@
         <div class="form-item">
             <label>模型</label>
             <el-select v-model="data.model" placeholder="选择模型" size="small">
-                <el-option v-for="model in workflowConfig.modelList" :label="model.modelName" :value="model.id" />
+                <el-option v-for="model in workflowConfig.modelList" :label="model.modelName" :key="model.id"
+                    :value="model.id" />
             </el-select>
         </div>
 
@@ -117,6 +118,7 @@ const data = defineModel('data', {
         model: 'gpt-3.5-turbo',
         temperature: 0.7,
         systemPrompt: '',
+        inputParamMap: [],
         inputParams: [],
         outputParams: []
     })
@@ -124,9 +126,9 @@ const data = defineModel('data', {
 
 // 选中的输入变量
 const selectedInputParams = computed({
-    get: () => data.value.inputParams || [],
+    get: () => data.value.inputParamMap || [],
     set: (val) => {
-        data.value.inputParams = val
+        data.value.inputParamMap = val
     }
 })
 

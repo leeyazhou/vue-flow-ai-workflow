@@ -3,7 +3,7 @@
         <!-- 输入参数选择 -->
         <div class="form-item">
             <label>查询变量</label>
-            <el-select v-model="data.queryVariable" placeholder="选择查询内容变量" filterable allow-create size="small">
+            <el-select v-model="data.queryParam" placeholder="选择查询内容变量" filterable allow-create size="small">
                 <el-option-group v-for="group in availableParams" :key="group.nodeId" :label="group.nodeLabel">
                     <el-option v-for="variable in group.variables" :key="variable.name" :label="variable.name"
                         :value="variable.name">
@@ -25,7 +25,7 @@
         <div class="form-item">
             <label>知识库</label>
             <el-select v-model="data.knowledgeId" placeholder="选择知识库" size="small">
-                <el-option v-for="knowledge in workflowConfig.knowledgeList" :label="knowledge.name"
+                <el-option v-for="knowledge in workflowConfig.knowledgeList" :label="knowledge.name" :key="knowledge.id"
                     :value="knowledge.id" />
             </el-select>
         </div>
@@ -64,7 +64,7 @@ const props = defineProps({
 
 const data = defineModel('data', {
     default: () => ({
-        queryVariable: '',
+        queryParam: '',
         knowledgeId: '',
         topK: 3,
         inputParams: [],

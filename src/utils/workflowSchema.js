@@ -79,8 +79,8 @@ export const nodeOutputVariables = {
         )
 
         // 用户自定义输出参数
-        if (nodeData.outputParameters && Array.isArray(nodeData.outputParameters)) {
-            nodeData.outputParameters.forEach((param) => {
+        if (nodeData.outputParams && Array.isArray(nodeData.outputParams)) {
+            nodeData.outputParams.forEach((param) => {
                 if (param.name) {
                     variables.push({
                         name: param.name,
