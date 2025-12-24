@@ -131,6 +131,7 @@ function toggleDarkMode() {
 const selectedNode = ref(null)
 
 onNodeClick(({ node }) => {
+    console.log('onNodeClick: ', node)
     selectedNode.value = node
 })
 
@@ -172,7 +173,10 @@ const handleNodeUpdate = (updatedElement) => {
         if (node) {
             console.log('Updating node:', node.id, updatedElement)
             node.label = updatedElement.label
-            node.data = { ...node.data, ...updatedElement.data }
+            node.data = {
+                ...node.data,
+                ...updatedElement.data
+            }
 
             // Update selectedNode to reflect changes to the panel itself if needed,
             // but usually panel emits the change, so it has the latest.
@@ -212,7 +216,10 @@ const handleAddNode = (type) => {
         id: newNodeId,
         type: type,
         position: { x: sourceNode.position.x + 300, y: sourceNode.position.y },
-        data: { type }
+        data: {
+            label: '',
+            description: ''
+        }
     }
 
     addNodes([newNode])

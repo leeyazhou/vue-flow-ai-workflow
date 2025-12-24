@@ -13,12 +13,12 @@
             <div v-else>
                 <div class="form-item">
                     <label>节点名称</label>
-                    <el-input v-model="localLabel" size="small" @input="updateNode" />
+                    <el-input v-model="node.data.label" size="small" />
                 </div>
                 <div class="form-item">
                     <label>描述</label>
-                    <el-input v-model="localDescription" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }"
-                        size="small" @input="updateNode" />
+                    <el-input v-model="node.data.description" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }"
+                        size="small" />
                 </div>
                 <component :is="specificPanel" v-if="specificPanel" :data="node.data" :node-id="node.id"
                     :workflow-config="workflowConfig" :workflow-nodes="workflowNodes" :workflow-edges="workflowEdges" />
@@ -37,10 +37,6 @@ import StartPanel from './panels/StartPanel.vue'
 import EdgePanel from './panels/EdgePanel.vue'
 
 const props = defineProps({
-    node: {
-        type: Object,
-        default: null,
-    },
     workflowNodes: {
         type: Array,
         default: () => []
@@ -54,11 +50,17 @@ const props = defineProps({
         default: () => { }
     }
 })
+const node = defineModel('node', {
+    type: Object,
+    default: {
+        data: {
+            label: '',
+            description: ''
+        }
+    },
+})
 
-const emit = defineEmits(['close', 'update'])
-
-const localLabel = ref('')
-const localDescription = ref('')
+const emit = defineEmits(['close'])
 
 // Map node types to panel components
 const panelMap = {
@@ -76,24 +78,6 @@ const specificPanel = computed(() => {
     return panelMap[props.node.type] || null
 })
 
-watch(() => props.node, (newNode) => {
-    if (newNode) {
-        localLabel.value = newNode.label || newNode.data?.label || ''
-        localDescription.value = newNode.data?.description || ''
-    }
-}, { immediate: true, deep: true })
-
-const updateNode = () => {
-    emit('update', {
-        id: props.node.id,
-        label: localLabel.value,
-        data: {
-            ...props.node.data,
-            label: localLabel.value,
-            description: localDescription.value,
-        }
-    })
-}
 </script>
 
 <style scoped>

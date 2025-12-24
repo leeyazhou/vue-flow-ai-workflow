@@ -29,21 +29,39 @@
 <script setup>
 import { SwitchButton } from '@element-plus/icons-vue'
 import BaseNode from './BaseNode.vue'
+import { watch } from 'vue'
 
-defineProps({
-    id: {
-        type: String,
-        required: true,
-    },
-    selected: {
-        type: Boolean,
-        default: false,
-    },
-    data: {
-        type: Object,
-        default: () => ({}),
+// const { id, selected, data } = defineModel({
+//     id: {
+//         type: String,
+//         required: true,
+//     },
+//     selected: {
+//         type: Boolean,
+//         default: false,
+//     },
+//     data: {
+//         type: Object,
+//         default: () => { },
+//     }
+// })
+const id = defineModel('id')
+const selected = defineModel('selected')
+const data = defineModel('data')
+console.log('data: ', data)
+function init() {
+    console.log('data', data)
+    if (data === undefined) {
+        return;
     }
-})
+    if (data.label === undefined || data.label === '') {
+        data.label = 'End Link'
+    }
+    if (data.description === undefined) {
+        data.description = 'The workflow ends here.'
+    }
+}
+init()
 
 defineEmits(['add-node'])
 </script>
