@@ -6,7 +6,7 @@
             <el-select v-model="data.queryParam" placeholder="选择查询内容变量" filterable allow-create size="small">
                 <el-option-group v-for="group in availableParams" :key="group.nodeId" :label="group.nodeLabel">
                     <el-option v-for="variable in group.variables" :key="variable.name" :label="variable.name"
-                        :value="variable.name">
+                        :value="group.nodeId + '.' + variable.name">
                         <div class="variable-option">
                             <span class="var-name">{{ variable.name }}</span>
                             <el-tag size="small" type="info" class="var-type">{{ variable.type }}</el-tag>
