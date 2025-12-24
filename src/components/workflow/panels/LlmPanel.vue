@@ -65,10 +65,7 @@
                 <el-table-column label="类型" width="85">
                     <template #default="{ row }">
                         <el-select v-model="row.type" size="small" class="compact-select">
-                            <el-option label="字符串" value="string" />
-                            <el-option label="数字" value="number" />
-                            <el-option label="布尔" value="boolean" />
-                            <el-option label="对象" value="object" />
+                            <el-option v-for="(value, key) in paramType" :key="key" :label="value" :value="key" />
                         </el-select>
                     </template>
                 </el-table-column>
@@ -90,7 +87,7 @@
 <script setup>
 import { computed } from 'vue'
 import { Plus, Delete } from '@element-plus/icons-vue'
-import { collectPredecessorVariables } from '@/utils/workflowSchema'
+import { collectPredecessorVariables, paramType } from '@/utils/workflowSchema'
 
 const props = defineProps({
     nodeId: {

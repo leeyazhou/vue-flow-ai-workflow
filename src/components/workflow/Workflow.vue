@@ -211,7 +211,7 @@ const handleAddNode = (type) => {
     const sourceNode = findNode(sourceNodeId.value)
     if (!sourceNode) return
 
-    const newNodeId = `node-${Date.now()}`
+    const newNodeId = `node-${type}-${Date.now()}`
     const newNode = {
         id: newNodeId,
         type: type,

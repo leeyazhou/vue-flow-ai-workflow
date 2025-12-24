@@ -2,7 +2,7 @@
     <div class="condition-panel">
         <div class="form-item">
             <label>变量</label>
-            <el-select v-model="data.variable" placeholder="选择变量或输入变量名" filterable allow-create size="small">
+            <el-select v-model="data.inputParam" placeholder="选择变量或输入变量名" filterable allow-create size="small">
                 <el-option-group v-for="group in availableVariables" :key="group.nodeId" :label="group.nodeLabel">
                     <el-option v-for="variable in group.variables" :key="variable.name" :label="variable.name"
                         :value="variable.name">
@@ -24,14 +24,7 @@
         <div class="form-item">
             <label>操作符</label>
             <el-select v-model="data.operator" placeholder="选择操作符" size="small">
-                <el-option label="等于 (==)" value="==" />
-                <el-option label="不等于 (!=)" value="!=" />
-                <el-option label="包含" value="contains" />
-                <el-option label="不包含" value="not_contains" />
-                <el-option label="大于 (>)" value=">" />
-                <el-option label="小于 (<)" value="<" />
-                <el-option label="大于等于 (>=)" value=">=" />
-                <el-option label="小于等于 (<=)" value="<=" />
+                <el-option v-for="(value, key) in operatorType" :key="key" :label="value" :value="key" />
             </el-select>
         </div>
 
@@ -44,7 +37,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { collectPredecessorVariables } from '@/utils/workflowSchema'
+import { collectPredecessorVariables, operatorType } from '@/utils/workflowSchema'
 
 const props = defineProps({
     nodeId: {
@@ -63,7 +56,7 @@ const props = defineProps({
 
 const data = defineModel('data', {
     default: () => ({
-        variable: '',
+        inputParam: '',
         operator: '==',
         value: ''
     })

@@ -183,3 +183,21 @@ export const collectPredecessorVariables = (currentNodeId, nodes, edges) => {
 
     return groupedVariables
 }
+
+export const paramType = {
+    string: '字符串',
+    number: '数字',
+    boolean: '布尔',
+    object: '对象'
+}
+
+export const operatorType = {
+    '==': '等于',
+    '!=': '不等于',
+    'contains': '包含',
+    'not_contains': '不包含',
+    '>': '大于',
+    '<': '小于',
+    '>=': '大于等于',
+    '<=': '小于等于'
+}

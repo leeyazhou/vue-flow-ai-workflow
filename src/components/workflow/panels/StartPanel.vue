@@ -51,10 +51,7 @@
                 <el-table-column label="类型" width="100">
                     <template #default="{ row }">
                         <el-select v-model="row.type" size="small" class="compact-select">
-                            <el-option label="字符串" value="string" />
-                            <el-option label="数字" value="number" />
-                            <el-option label="布尔" value="boolean" />
-                            <el-option label="对象" value="object" />
+                            <el-option v-for="(value, key) in paramType" :label="value" :value="key" />
                         </el-select>
                     </template>
                 </el-table-column>
@@ -82,6 +79,7 @@
 <script setup>
 import { computed } from 'vue'
 import { Plus, Delete } from '@element-plus/icons-vue'
+import { paramType } from '@/utils/workflowSchema'
 
 const data = defineModel('data', {
     default: () => ({
@@ -132,13 +130,7 @@ const inputParams = computed(() => {
 
 // 类型标签映射
 const getTypeLabel = (type) => {
-    const typeMap = {
-        string: '字符串',
-        number: '数字',
-        boolean: '布尔',
-        object: '对象'
-    }
-    return typeMap[type] || type
+    return paramType[type] || type
 }
 
 const addInputParam = () => {
