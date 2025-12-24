@@ -89,5 +89,19 @@ export const workflowConfig = {
             id: 2,
             modelName: 'Claude 3.5 Sonnet'
         }
+    ],
+    knowledgeList: [
+        {
+            id: 1,
+            name: '知识库1'
+        },
+        {
+            id: 2,
+            name: '知识库2'
+        },
+        {
+            id: 3,
+            name: '知识库3'
+        }
     ]
 }

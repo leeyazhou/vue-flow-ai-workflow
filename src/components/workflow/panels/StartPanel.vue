@@ -32,14 +32,14 @@
         <div class="section">
             <div class="section-header">
                 <h3>自定义参数</h3>
-                <el-button type="primary" size="small" @click="addParameter">
+                <el-button type="primary" size="small" @click="addInputParam">
                     <el-icon>
                         <Plus />
                     </el-icon>
                 </el-button>
             </div>
 
-            <el-table :data="parameters" size="small" border class="compact-table" :empty-text="'暂无参数'">
+            <el-table :data="inputParams" size="small" border class="compact-table" :empty-text="'暂无参数'">
                 <el-table-column type="index" label="#" width="30" align="center" />
 
                 <el-table-column label="变量名" min-width="120">
@@ -67,7 +67,7 @@
 
                 <el-table-column label="操作" width="41" align="center" fixed="right">
                     <template #default="{ $index }">
-                        <el-button type="danger" link size="small" @click="removeParameter($index)">
+                        <el-button type="danger" link size="small" @click="removeInputParam($index)">
                             <el-icon>
                                 <Delete />
                             </el-icon>
@@ -84,7 +84,10 @@ import { computed } from 'vue'
 import { Plus, Delete } from '@element-plus/icons-vue'
 
 const data = defineModel('data', {
-    default: () => ({ parameters: [] })
+    default: () => ({
+        inputParams: [],
+        outputParams: []
+    })
 })
 
 // 内置系统变量(只读)
@@ -120,11 +123,11 @@ const builtInVariables = [
 ]
 
 // 确保参数数组存在
-const parameters = computed(() => {
-    if (!data.value.parameters) {
-        data.value.parameters = []
+const inputParams = computed(() => {
+    if (!data.value.inputParams) {
+        data.value.inputParams = []
     }
-    return data.value.parameters
+    return data.value.inputParams
 })
 
 // 类型标签映射
@@ -138,8 +141,8 @@ const getTypeLabel = (type) => {
     return typeMap[type] || type
 }
 
-const addParameter = () => {
-    parameters.value.push({
+const addInputParam = () => {
+    inputParams.value.push({
         name: '',
         type: 'string',
         required: true,
@@ -147,8 +150,8 @@ const addParameter = () => {
     })
 }
 
-const removeParameter = (index) => {
-    parameters.value.splice(index, 1)
+const removeInputParam = (index) => {
+    inputParams.value.splice(index, 1)
 }
 </script>
 

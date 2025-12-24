@@ -3,9 +3,9 @@
         <!-- 输入参数选择 -->
         <div class="form-item">
             <label>输入参数</label>
-            <el-select v-model="selectedInputVariables" placeholder="选择使用的变量" multiple filterable size="small"
+            <el-select v-model="selectedInputParams" placeholder="选择使用的变量" multiple filterable size="small"
                 collapse-tags collapse-tags-tooltip>
-                <el-option-group v-for="group in availableVariables" :key="group.nodeId" :label="group.nodeLabel">
+                <el-option-group v-for="group in availableParams" :key="group.nodeId" :label="group.nodeLabel">
                     <el-option v-for="variable in group.variables" :key="variable.name" :label="variable.name"
                         :value="variable.name">
                         <div class="variable-option">
@@ -15,7 +15,7 @@
                     </el-option>
                 </el-option-group>
 
-                <template v-if="availableVariables.length === 0">
+                <template v-if="availableParams.length === 0">
                     <el-option disabled value="">
                         <span style="color: #909399;">暂无可用变量,请先连接前置节点</span>
                     </el-option>
@@ -52,7 +52,7 @@
                 </el-button>
             </div>
 
-            <el-table :data="outputParameters" size="small" border class="compact-table" :empty-text="'默认输出 response'">
+            <el-table :data="outputParams" size="small" border class="compact-table" :empty-text="'默认输出 response'">
                 <el-table-column type="index" label="#" width="30" align="center" />
 
                 <el-table-column label="变量名" min-width="100">
@@ -117,21 +117,21 @@ const data = defineModel('data', {
         model: 'gpt-3.5-turbo',
         temperature: 0.7,
         systemPrompt: '',
-        inputVariables: [],
-        outputParameters: []
+        inputParams: [],
+        outputParams: []
     })
 })
 
 // 选中的输入变量
-const selectedInputVariables = computed({
-    get: () => data.value.inputVariables || [],
+const selectedInputParams = computed({
+    get: () => data.value.inputParams || [],
     set: (val) => {
-        data.value.inputVariables = val
+        data.value.inputParams = val
     }
 })
 
 // 收集前置节点的所有变量,按节点分组
-const availableVariables = computed(() => {
+const availableParams = computed(() => {
     if (!props.nodeId || !props.workflowNodes || !props.workflowEdges) {
         return []
     }
@@ -144,22 +144,22 @@ const availableVariables = computed(() => {
 })
 
 // 确保输出参数数组存在
-const outputParameters = computed(() => {
-    if (!data.value.outputParameters) {
-        data.value.outputParameters = []
+const outputParams = computed(() => {
+    if (!data.value.outputParams) {
+        data.value.outputParams = []
     }
-    return data.value.outputParameters
+    return data.value.outputParams
 })
 
 const addOutputParameter = () => {
-    outputParameters.value.push({
+    outputParams.value.push({
         name: '',
         type: 'string'
     })
 }
 
 const removeOutputParameter = (index) => {
-    outputParameters.value.splice(index, 1)
+    outputParams.value.splice(index, 1)
 }
 </script>
 

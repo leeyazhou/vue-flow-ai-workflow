@@ -35,8 +35,21 @@ export const nodeOutputVariables = {
         )
 
         // 用户自定义参数
-        if (nodeData.parameters && Array.isArray(nodeData.parameters)) {
-            nodeData.parameters.forEach((param) => {
+        if (nodeData.inputParams && Array.isArray(nodeData.inputParams)) {
+            nodeData.inputParams.forEach((param) => {
+                if (param.name) {
+                    variables.push({
+                        name: param.name,
+                        type: param.type || 'string',
+                        description: `自定义参数: ${param.name}`
+                    })
+                }
+            })
+        }
+
+        // 用户自定义参数
+        if (nodeData.outputParams && Array.isArray(nodeData.outputParams)) {
+            nodeData.outputParams.forEach((param) => {
                 if (param.name) {
                     variables.push({
                         name: param.name,
