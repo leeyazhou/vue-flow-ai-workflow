@@ -1,28 +1,5 @@
 <template>
     <div class="panel-section">
-        <!-- 输入参数选择 -->
-        <div class="form-item">
-            <label>输入参数</label>
-            <el-select v-model="selectedInputParams" placeholder="选择使用的变量" multiple filterable size="small"
-                collapse-tags collapse-tags-tooltip>
-                <el-option-group v-for="group in availableParams" :key="group.nodeId" :label="group.nodeLabel">
-                    <el-option v-for="variable in group.variables" :key="variable.name" :label="variable.name"
-                        :value="group.nodeId + '.' + variable.name">
-                        <div class="variable-option">
-                            <span class="var-name">{{ variable.name }}</span>
-                            <el-tag size="small" type="info" class="var-type">{{ variable.type }}</el-tag>
-                        </div>
-                    </el-option>
-                </el-option-group>
-
-                <template v-if="availableParams.length === 0">
-                    <el-option disabled value="">
-                        <span style="color: #909399;">暂无可用变量,请先连接前置节点</span>
-                    </el-option>
-                </template>
-            </el-select>
-        </div>
-
         <div class="form-item">
             <label>模型</label>
             <el-select v-model="data.model" placeholder="选择模型" size="small">
@@ -42,6 +19,60 @@
                 placeholder="输入系统指令... 使用 {{变量名}} 引用输入变量" size="small" />
         </div>
 
+        <div class="output-section">
+            <div class="section-header">
+                <label>输入参数</label>
+                <el-button type="primary" size="small" @click="addInputParameter">
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
+                </el-button>
+            </div>
+
+            <el-table :data="inputParams" size="small" border class="compact-table" :empty-text="'默认输出 response'">
+                <el-table-column type="index" label="#" width="30" align="center" />
+
+                <el-table-column label="变量名" min-width="100">
+                    <template #default="{ row }">
+                        <el-input v-model="row.name" placeholder="例: result" size="small" class="compact-input" />
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="类型" width="100">
+                    <template #default="{ row }">
+                        <el-select v-model="row.paramMapKey" placeholder="选择使用的变量" filterable size="small" collapse-tags
+                            collapse-tags-tooltip>
+                            <el-option-group v-for="group in availableParams" :key="group.nodeId"
+                                :label="group.nodeLabel">
+                                <el-option v-for="variable in group.variables" :key="variable.name"
+                                    :label="variable.name" :value="group.nodeId + '.' + variable.name">
+                                    <div class="variable-option">
+                                        <span class="var-name">{{ variable.name }}</span>
+                                        <el-tag size="small" type="info" class="var-type">{{ variable.type }}</el-tag>
+                                    </div>
+                                </el-option>
+                            </el-option-group>
+
+                            <template v-if="availableParams.length === 0">
+                                <el-option disabled value="">
+                                    <span style="color: #909399;">暂无可用变量,请先连接前置节点</span>
+                                </el-option>
+                            </template>
+                        </el-select>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" width="41" align="center" fixed="right">
+                    <template #default="{ $index }">
+                        <el-button type="danger" link size="small" @click="removeInputParameter($index)">
+                            <el-icon>
+                                <Delete />
+                            </el-icon>
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
         <!-- 输出参数配置 -->
         <div class="output-section">
             <div class="section-header">
@@ -87,7 +118,7 @@
 <script setup>
 import { computed } from 'vue'
 import { Plus, Delete } from '@element-plus/icons-vue'
-import { collectPredecessorVariables, paramType } from '@/utils/workflowSchema'
+import { collectPredecessorVariables, paramType, llmOutputParams } from '@/utils/workflowSchema'
 
 const props = defineProps({
     nodeId: {
@@ -115,18 +146,9 @@ const data = defineModel('data', {
         model: 'gpt-3.5-turbo',
         temperature: 0.7,
         systemPrompt: '',
-        inputParamMap: [],
         inputParams: [],
         outputParams: []
     })
-})
-
-// 选中的输入变量
-const selectedInputParams = computed({
-    get: () => data.value.inputParamMap || [],
-    set: (val) => {
-        data.value.inputParamMap = val
-    }
 })
 
 // 收集前置节点的所有变量,按节点分组
@@ -145,9 +167,16 @@ const availableParams = computed(() => {
 // 确保输出参数数组存在
 const outputParams = computed(() => {
     if (!data.value.outputParams) {
-        data.value.outputParams = []
+        data.value.outputParams = [...llmOutputParams]
     }
     return data.value.outputParams
+})
+
+const inputParams = computed(() => {
+    if (!data.value.inputParams) {
+        data.value.inputParams = []
+    }
+    return data.value.inputParams
 })
 
 const addOutputParameter = () => {
@@ -157,8 +186,19 @@ const addOutputParameter = () => {
     })
 }
 
+const addInputParameter = () => {
+    inputParams.value.push({
+        name: '',
+        type: 'string'
+    })
+}
+
 const removeOutputParameter = (index) => {
     outputParams.value.splice(index, 1)
+}
+
+const removeInputParameter = (index) => {
+    inputParams.value.splice(index, 1)
 }
 </script>
 

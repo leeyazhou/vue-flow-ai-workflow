@@ -1,27 +1,5 @@
 <template>
     <div class="panel-section">
-        <!-- 输入参数选择 -->
-        <div class="form-item">
-            <label>查询变量</label>
-            <el-select v-model="data.queryParam" placeholder="选择查询内容变量" filterable allow-create size="small">
-                <el-option-group v-for="group in availableParams" :key="group.nodeId" :label="group.nodeLabel">
-                    <el-option v-for="variable in group.variables" :key="variable.name" :label="variable.name"
-                        :value="group.nodeId + '.' + variable.name">
-                        <div class="variable-option">
-                            <span class="var-name">{{ variable.name }}</span>
-                            <el-tag size="small" type="info" class="var-type">{{ variable.type }}</el-tag>
-                        </div>
-                    </el-option>
-                </el-option-group>
-
-                <template v-if="availableParams.length === 0">
-                    <el-option disabled value="">
-                        <span style="color: #909399;">暂无可用变量,请先连接前置节点</span>
-                    </el-option>
-                </template>
-            </el-select>
-        </div>
-
         <div class="form-item">
             <label>知识库</label>
             <el-select v-model="data.knowledgeId" placeholder="选择知识库" size="small">
@@ -34,12 +12,106 @@
             <label>返回数量 (Top K)</label>
             <el-input-number v-model="data.topK" :min="1" :max="10" size="small" />
         </div>
+
+        <div class="output-section">
+            <div class="section-header">
+                <label>输入参数</label>
+                <el-button v-if="inputParams.length == 0" type="primary" size="small" @click="addInputParameter">
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
+                </el-button>
+            </div>
+
+            <el-table :data="inputParams" size="small" border class="compact-table" :empty-text="'默认输出 response'">
+                <el-table-column type="index" label="#" width="30" align="center" />
+
+                <el-table-column label="变量名" min-width="100">
+                    <template #default="{ row }">
+                        <el-input v-model="row.name" placeholder="例: result" size="small" class="compact-input" />
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="类型" width="100">
+                    <template #default="{ row }">
+                        <el-select v-model="row.paramMapKey" placeholder="选择使用的变量" filterable size="small" collapse-tags
+                            collapse-tags-tooltip>
+                            <el-option-group v-for="group in availableParams" :key="group.nodeId"
+                                :label="group.nodeLabel">
+                                <el-option v-for="variable in group.variables" :key="variable.name"
+                                    :label="variable.name" :value="group.nodeId + '.' + variable.name">
+                                    <div class="variable-option">
+                                        <span class="var-name">{{ variable.name }}</span>
+                                        <el-tag size="small" type="info" class="var-type">{{ variable.type }}</el-tag>
+                                    </div>
+                                </el-option>
+                            </el-option-group>
+
+                            <template v-if="availableParams.length === 0">
+                                <el-option disabled value="">
+                                    <span style="color: #909399;">暂无可用变量,请先连接前置节点</span>
+                                </el-option>
+                            </template>
+                        </el-select>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" width="41" align="center" fixed="right">
+                    <template #default="{ $index }">
+                        <el-button type="danger" link size="small" @click="removeInputParameter($index)">
+                            <el-icon>
+                                <Delete />
+                            </el-icon>
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
+        <!-- 输出参数配置 -->
+        <div class="output-section">
+            <div class="section-header">
+                <label>输出参数</label>
+                <el-button type="primary" size="small" @click="addOutputParameter">
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
+                </el-button>
+            </div>
+
+            <el-table :data="outputParams" size="small" border class="compact-table" :empty-text="'默认输出 response'">
+                <el-table-column type="index" label="#" width="30" align="center" />
+
+                <el-table-column label="变量名" min-width="100">
+                    <template #default="{ row }">
+                        <el-input v-model="row.name" placeholder="例: result" size="small" class="compact-input" />
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="类型" width="85">
+                    <template #default="{ row }">
+                        <el-select v-model="row.type" size="small" class="compact-select">
+                            <el-option v-for="(value, key) in paramType" :key="key" :label="value" :value="key" />
+                        </el-select>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" width="41" align="center" fixed="right">
+                    <template #default="{ $index }">
+                        <el-button type="danger" link size="small" @click="removeOutputParameter($index)">
+                            <el-icon>
+                                <Delete />
+                            </el-icon>
+                        </el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import { collectPredecessorVariables } from '@/utils/workflowSchema'
+import { collectPredecessorVariables, KnowledgeOutputParams, paramType } from '@/utils/workflowSchema'
 
 const props = defineProps({
     nodeId: {
@@ -64,7 +136,6 @@ const props = defineProps({
 
 const data = defineModel('data', {
     default: () => ({
-        queryParam: '',
         knowledgeId: '',
         topK: 3,
         inputParams: [],
@@ -84,6 +155,43 @@ const availableParams = computed(() => {
         props.workflowEdges
     )
 })
+
+// 确保输出参数数组存在
+const outputParams = computed(() => {
+    if (!data.value.outputParams) {
+        data.value.outputParams = [...KnowledgeOutputParams]
+    }
+    return data.value.outputParams
+})
+
+const inputParams = computed(() => {
+    if (!data.value.inputParams) {
+        data.value.inputParams = []
+    }
+    return data.value.inputParams
+})
+
+const addOutputParameter = () => {
+    outputParams.value.push({
+        name: '',
+        type: 'string'
+    })
+}
+
+const addInputParameter = () => {
+    inputParams.value.push({
+        name: '',
+        type: 'string'
+    })
+}
+
+const removeOutputParameter = (index) => {
+    outputParams.value.splice(index, 1)
+}
+
+const removeInputParameter = (index) => {
+    inputParams.value.splice(index, 1)
+}
 </script>
 
 <style scoped>
@@ -123,5 +231,24 @@ const availableParams = computed(() => {
 
 .var-type {
     font-size: 10px;
+}
+
+.output-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header label {
+    font-size: 12px;
+    color: #606266;
+    font-weight: 500;
 }
 </style>

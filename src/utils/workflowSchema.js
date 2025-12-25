@@ -15,6 +15,20 @@ export const getNodeOutputVariables = (nodeType, nodeData = {}) => {
     return handler(nodeData)
 }
 
+export const llmOutputParams = [
+    { name: 'response', type: 'string', description: 'LLM 响应内容' },
+    { name: 'tokens', type: 'number', description: '消耗的 token 数量' },
+    { name: 'model', type: 'string', description: '使用的模型名称' },
+    { name: 'finish_reason', type: 'string', description: '完成原因' }
+]
+
+export const KnowledgeOutputParams = [
+    { name: 'documents', type: 'object', description: '检索到的文档列表' },
+    { name: 'similarity', type: 'number', description: '最高相似度分数' },
+    { name: 'count', type: 'number', description: '检索到的文档数量' },
+    { name: 'query', type: 'string', description: '检索查询文本' }
+]
+
 /**
  * 节点输出变量定义
  */
@@ -68,15 +82,7 @@ export const nodeOutputVariables = {
      * 包含默认输出变量和用户自定义的输出参数
      */
     LLM: (nodeData) => {
-        const variables = []
-
-        // 默认输出变量
-        variables.push(
-            { name: 'response', type: 'string', description: 'LLM 响应内容' },
-            { name: 'tokens', type: 'number', description: '消耗的 token 数量' },
-            { name: 'model', type: 'string', description: '使用的模型名称' },
-            { name: 'finish_reason', type: 'string', description: '完成原因' }
-        )
+        const variables = [...llmOutputParams]
 
         // 用户自定义输出参数
         if (nodeData.outputParams && Array.isArray(nodeData.outputParams)) {
@@ -97,12 +103,7 @@ export const nodeOutputVariables = {
     /**
      * Knowledge 节点输出变量
      */
-    Knowledge: (nodeData) => [
-        { name: 'documents', type: 'object', description: '检索到的文档列表' },
-        { name: 'similarity', type: 'number', description: '最高相似度分数' },
-        { name: 'count', type: 'number', description: '检索到的文档数量' },
-        { name: 'query', type: 'string', description: '检索查询文本' }
-    ],
+    Knowledge: (nodeData) => [...KnowledgeOutputParams],
 
     /**
      * Condition 节点输出变量
